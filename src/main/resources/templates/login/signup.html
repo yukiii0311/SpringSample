@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th=”http://www.thymeleaf.org”>
+<head>
+<meta charset="UTF-8">
+<!-- ポイント１：Bootstrapの設定 -->
+<link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}"
+	rel="stylesheet"></link>
+<script th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+
+<title>SignUp</title>
+</head>
+<body>
+	<!-- col-sm-5:画面サイズに応じてカラムの割合を変更 -->
+	<!-- sm:スマホサイズ、md:タブレットサイズ -->
+	<div class="col-sm-5">
+
+		<!-- page-header: ページヘッダーに最適なスタイル（適切なスペースと区切り線）-->
+		<!-- ルール：class属性にpage-headerを指定したdivで、h1を括る -->
+		<div class="page-header">
+			<h1>ユーザー登録画面</h1>
+		</div>
+
+		<!-- ここからフォーム -->
+		<!-- th:action:リクエスト先の指定 -->
+		<!-- action = "/signup"でも問題ないが、Springセキュリティを使う場合、th:action属性を使う -->
+		<form method="post"th:action "@{/signup}">
+
+			<!-- table-bordered:テーブルの各セルにボーダーをつける -->
+			<!-- table-hover:テーブルの列にマウスを乗せた際に背景色を変更する -->
+			<table class="table table-bordered table-hover">
+
+				<!-- ========= -->
+				<!-- ユーザーID -->
+				<!-- ========= -->
+				<tr>
+					<!-- active:行に色をつける。activeは薄グレー -->
+					<!-- col-sm-3:画面サイズに応じてカラムの割合を変更 -->
+					<!-- sm:スマホサイズ、md:タブレットサイズ -->
+					<th class="active col-sm-3">ユーザーID</th>
+					<td>
+						<!-- form-group:入力部品のグループにつける -->
+						<div class="form-group">
+
+							<!-- form-group:入力部品そのものにつける -->
+							<input type="text" class="form-control" />
+						</div>
+					</td>
+				</tr>
+
+				<!-- ========= -->
+				<!-- パスワード -->
+				<!-- ========= -->
+				<tr>
+					<!-- active:行に色をつける。activeは薄グレー -->
+					<th class="active">パスワード</th>
+					<td>
+						<!-- form-group:入力部品のグループにつける -->
+						<div class="form-group">
+
+							<!-- form-group:入力部品そのものにつける -->
+							<input type="text" class="form-control" />
+						</div>
+					</td>
+				</tr>
+
+				<!-- ========= -->
+				<!-- ユーザー名 -->
+				<!-- ========= -->
+				<tr>
+					<!-- active:行に色をつける。activeは薄グレー -->
+					<th class="active">ユーザー名</th>
+					<td>
+						<!-- form-group:入力部品のグループにつける -->
+						<div class="form-group">
+
+							<!-- form-group:入力部品そのものにつける -->
+							<input type="text" class="form-control" />
+						</div>
+					</td>
+				</tr>
+
+				<!-- ========= -->
+				<!-- 誕生日 -->
+				<!-- ========= -->
+				<tr>
+					<!-- active:行に色をつける。activeは薄グレー -->
+					<th class="active">誕生日</th>
+					<td>
+						<!-- form-group:入力部品のグループにつける -->
+						<div class="form-group">
+
+							<!-- form-group:入力部品そのものにつける -->
+							<input type="text" class="form-control" placeholder="yyyy/MM/dd" />
+						</div>
+					</td>
+				</tr>
+				<!-- ========= -->
+				<!-- 年齢 -->
+				<!-- ========= -->
+				<tr>
+					<!-- active:行に色をつける。activeは薄グレー -->
+					<th class="active">年齢</th>
+					<td>
+						<!-- form-group:入力部品のグループにつける -->
+						<div class="form-group">
+							<!-- form-group:入力部品のグループにつける -->
+							<input type="text" class="form-control" />
+						</div>
+					</td>
+				</tr>
+
+				<!-- ========= -->
+				<!-- 結婚 -->
+				<!-- ========= -->
+				<tr>
+					<!-- active:行に色をつける。activeは薄グレー -->
+					<th class="active">結婚</th>
+					<td>
+						<!-- form-group:入力部品のグループにつける -->
+						<div class="form-group">
+							<!-- ラジオボタンを実装するにはth:each属性 -->
+							<!-- th:each=”<属性名＞:${<ModelAttributeのキー名>}" -->
+							<!-- ∟ Modelに登録されている値が繰り返し呼び出される -->
+							<!-- ☆th:each属性がついているdivタグの中では、item(変数名)を使うことができる -->
+							<!-- ☆中身はSignupControllerクラスで取得したMapが入っている -->
+							<div th:each="item:${radioMarriage}">
+
+								<!-- th:text:画面に表示される文字列を指定 -->
+								<!-- ☆Mapクラスのkey値（既婚・未婚）を表示 -->
+								<!-- th:value:画面からControllerクラスに送る値を指定。 -->
+								<!-- ☆Mapクラスのvalue(true,false)を送る-->
+								<input type="radio" name="radioMarriage" th:text="${item.key}"
+									th:value="${item.value}">
+							</div>
+						</div>
+					</td>
+				</tr>
+			</table>
+			<!-- ユーザー登録ボタン -->
+			<!-- btn:ボタン、btn-primary:青色 -->
+			<button class="btn btn-primary" type="submit">ユーザー登録</button>
+		</form>
+	</div>
+</body>
+</html>

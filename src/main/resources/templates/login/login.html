@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th = ”http://www.thymeleaf.org”>
+<head>
+<meta charset="UTF-8">
+
+<!-- ポイント１：Bootstrapの設定 -->
+<link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet"></link>
+<script th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+
+<title>Login</title>
+</head>
+<body class = "text-center">
+<h1>Login</h1>
+
+<!-- ===== ここからフォーム ===== -->
+<form method = "post" action = "/login">
+
+<!-- ユーザーID -->
+<p>ユーザーID</p>
+<input type = "text"/><br/>
+<br/>
+
+<!-- パスワード -->
+<p>パスワード</p>
+<input type = "password"/><br/>
+<br/>
+
+<!-- ログインボタン -->
+<button class ="btn btn-primary" type="submit">ログイン</button>
+</form>
+<!-- ===== ここまでフォーム ===== -->
+
+<br/>
+
+<!-- ユーザー登録画面へのリンク -->
+<!-- thymeleafを使ってaタグを使う（リンクに飛ばす）時は「th:href」属性を使う -->
+<!-- Controllerクラスの@GetMappingアノテーションのカッコ内の文字列を指定 -->
+<!-- @{'/xxx'}という形式で遷移先を指定。 -->
+<a th:href="@{'/signup'}">ユーザー新規登録はこちら</a>
+
+</body>
+</html>
