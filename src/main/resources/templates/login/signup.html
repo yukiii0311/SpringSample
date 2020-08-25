@@ -11,39 +11,41 @@
 <title>SignUp</title>
 </head>
 <body>
-	<!-- col-sm-5:画面サイズに応じてカラムの割合を変更 -->
-	<!-- sm:スマホサイズ、md:タブレットサイズ -->
+	<!-- col-sm-5：画面サイズに応じてカラムの割合を変更 -->
+	<!-- sm：スマホサイズ、md：タブレットサイズ -->
 	<div class="col-sm-5">
 
-		<!-- page-header: ページヘッダーに最適なスタイル（適切なスペースと区切り線）-->
+		<!-- page-header：ページヘッダーに最適なスタイル（適切なスペースと区切り線）-->
 		<!-- ルール：class属性にpage-headerを指定したdivで、h1を括る -->
 		<div class="page-header">
 			<h1>ユーザー登録画面</h1>
 		</div>
 
-		<!-- ここからフォーム -->
-		<!-- th:action:リクエスト先の指定 -->
+		<!-- ここからフォーム・th:objectの有効範囲(th:fieldでオブジェクト名を省略可) -->
+		<!-- th:action：リクエスト先の指定 -->
 		<!-- action = "/signup"でも問題ないが、Springセキュリティを使う場合、th:action属性を使う -->
-		<form method="post"th:action "@{/signup}">
+		<!-- th:object：Modelに登録されているオブジェクトを受け取る。（ = 白紙の登録用紙をセット） -->
+		<form method="post" action="/signup" th:object="${signupForm}">
 
-			<!-- table-bordered:テーブルの各セルにボーダーをつける -->
-			<!-- table-hover:テーブルの列にマウスを乗せた際に背景色を変更する -->
+			<!-- table-bordered：テーブルの各セルにボーダーをつける -->
+			<!-- table-hover：テーブルの列にマウスを乗せた際に背景色を変更する -->
 			<table class="table table-bordered table-hover">
 
 				<!-- ========= -->
 				<!-- ユーザーID -->
 				<!-- ========= -->
 				<tr>
-					<!-- active:行に色をつける。activeは薄グレー -->
-					<!-- col-sm-3:画面サイズに応じてカラムの割合を変更 -->
-					<!-- sm:スマホサイズ、md:タブレットサイズ -->
+					<!-- active：行に色をつける。activeは薄グレー -->
+					<!-- col-sm-3：画面サイズに応じてカラムの割合を変更 -->
+					<!-- sm：スマホサイズ、md：タブレットサイズ -->
 					<th class="active col-sm-3">ユーザーID</th>
 					<td>
-						<!-- form-group:入力部品のグループにつける -->
+						<!-- form-group：入力部品のグループにつける -->
 						<div class="form-group">
 
-							<!-- form-group:入力部品そのものにつける -->
-							<input type="text" class="form-control" />
+							<!-- form-group：入力部品そのものにつける -->
+							<!-- th:field：値の取得・送信 （オブジェクト内のフィールドに対応）-->
+							<input type="text" class="form-control" th:field="*{userId}" />
 						</div>
 					</td>
 				</tr>
@@ -52,14 +54,15 @@
 				<!-- パスワード -->
 				<!-- ========= -->
 				<tr>
-					<!-- active:行に色をつける。activeは薄グレー -->
+					<!-- active：行に色をつける。activeは薄グレー -->
 					<th class="active">パスワード</th>
 					<td>
-						<!-- form-group:入力部品のグループにつける -->
+						<!-- form-group：入力部品のグループにつける -->
 						<div class="form-group">
 
-							<!-- form-group:入力部品そのものにつける -->
-							<input type="text" class="form-control" />
+							<!-- form-group：入力部品そのものにつける -->
+							<!-- th:field：値の取得・送信 （オブジェクト内のフィールドに対応）-->
+							<input type="text" class="form-control" th:field="*{password}" />
 						</div>
 					</td>
 				</tr>
@@ -68,14 +71,15 @@
 				<!-- ユーザー名 -->
 				<!-- ========= -->
 				<tr>
-					<!-- active:行に色をつける。activeは薄グレー -->
+					<!-- active：行に色をつける。activeは薄グレー -->
 					<th class="active">ユーザー名</th>
 					<td>
-						<!-- form-group:入力部品のグループにつける -->
+						<!-- form-group：入力部品のグループにつける -->
 						<div class="form-group">
 
-							<!-- form-group:入力部品そのものにつける -->
-							<input type="text" class="form-control" />
+							<!-- form-control：入力部品そのものにつける -->
+							<!-- th:field：値の取得・送信 （オブジェクト内のフィールドに対応）-->
+							<input type="text" class="form-control" th:field="*{userName}" />
 						</div>
 					</td>
 				</tr>
@@ -84,14 +88,16 @@
 				<!-- 誕生日 -->
 				<!-- ========= -->
 				<tr>
-					<!-- active:行に色をつける。activeは薄グレー -->
+					<!-- active：行に色をつける。activeは薄グレー -->
 					<th class="active">誕生日</th>
 					<td>
-						<!-- form-group:入力部品のグループにつける -->
+						<!-- form-group：入力部品のグループにつける -->
 						<div class="form-group">
 
-							<!-- form-group:入力部品そのものにつける -->
-							<input type="text" class="form-control" placeholder="yyyy/MM/dd" />
+							<!-- form-group：入力部品そのものにつける -->
+							<!-- th:field：値の取得・送信 （オブジェクト内のフィールドに対応）-->
+							<input type="text" class="form-control" placeholder="yyyy/MM/dd"
+								th:field="*{birthday}" />
 						</div>
 					</td>
 				</tr>
@@ -99,13 +105,14 @@
 				<!-- 年齢 -->
 				<!-- ========= -->
 				<tr>
-					<!-- active:行に色をつける。activeは薄グレー -->
+					<!-- active：行に色をつける。activeは薄グレー -->
 					<th class="active">年齢</th>
 					<td>
-						<!-- form-group:入力部品のグループにつける -->
+						<!-- form-group：入力部品のグループにつける -->
 						<div class="form-group">
-							<!-- form-group:入力部品のグループにつける -->
-							<input type="text" class="form-control" />
+							<!-- form-group：入力部品のグループにつける -->
+							<!-- th:field：値の取得・送信 （オブジェクト内のフィールドに対応）-->
+							<input type="text" class="form-control" th:field="*{age}" />
 						</div>
 					</td>
 				</tr>
@@ -114,10 +121,10 @@
 				<!-- 結婚 -->
 				<!-- ========= -->
 				<tr>
-					<!-- active:行に色をつける。activeは薄グレー -->
+					<!-- active：行に色をつける。activeは薄グレー -->
 					<th class="active">結婚</th>
 					<td>
-						<!-- form-group:入力部品のグループにつける -->
+						<!-- form-group：入力部品のグループにつける -->
 						<div class="form-group">
 							<!-- ラジオボタンを実装するにはth:each属性 -->
 							<!-- th:each=”<属性名＞:${<ModelAttributeのキー名>}" -->
@@ -126,19 +133,25 @@
 							<!-- ☆中身はSignupControllerクラスで取得したMapが入っている -->
 							<div th:each="item:${radioMarriage}">
 
-								<!-- th:text:画面に表示される文字列を指定 -->
+								<!-- th:text：画面に表示される文字列を指定 -->
 								<!-- ☆Mapクラスのkey値（既婚・未婚）を表示 -->
-								<!-- th:value:画面からControllerクラスに送る値を指定。 -->
+								<!-- th:value：画面からControllerクラスに送る値を指定。 -->
 								<!-- ☆Mapクラスのvalue(true,false)を送る-->
+								<!-- th:field：値の取得・送信 （オブジェクト内のフィールドに対応）-->
 								<input type="radio" name="radioMarriage" th:text="${item.key}"
-									th:value="${item.value}">
+									th:value="${item.value}" th:field="*{marriage}">
 							</div>
 						</div>
 					</td>
 				</tr>
 			</table>
-			<!-- ユーザー登録ボタン -->
-			<!-- btn:ボタン、btn-primary:青色 -->
+			<!-- エラーメッセージの一覧表示 -->
+			<ul>
+				<li th:each="error :${#fields.detailedErrors()}"><span
+					th:text="${error.message}">Error message</span></li>
+			</ul>
+						<!-- ユーザー登録ボタン -->
+			<!-- btn：ボタン、btn-primary：青色 -->
 			<button class="btn btn-primary" type="submit">ユーザー登録</button>
 		</form>
 	</div>

@@ -5,8 +5,12 @@ import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import com.example.demo.login.domain.model.SignupForm;
 
 @Controller
 public class SignupController {
@@ -38,7 +42,10 @@ public class SignupController {
 // ============
 
 	@GetMapping("/signup")
-	public String getSignUp(Model model) {
+//	@ModelAttributeをつけると、(SignupForm型のformオブジェクトが）自動でModelクラスに登録される
+//	∟ model.addAttribute("signupForm",form）のイメージ
+//	∟ デフォルトのキー名はsignupForm（クラス名の最初の文字を小文字に変えた文字列）
+	public String getSignUp(@ModelAttribute SignupForm form, Model model) {
 
 //		ラジオボタンの初期化メソッド呼び出し（既婚、未婚のMapを準備）
 		radioMarriage = initRadioMarriage();
@@ -46,7 +53,8 @@ public class SignupController {
 //		ラジオボタン用のMapをModelに登録
 		model.addAttribute("radioMarriage",radioMarriage);
 
-//		signup.hemlに画面遷移
+//		signup.htmlに画面遷移
+//		（ = ユーザー登録画面）
 		return "login/signup";
 
 	}
@@ -56,7 +64,23 @@ public class SignupController {
 // =============
 
 	@PostMapping("/signup")
-	public String postSignUp(Model model) {
+//	BindingResult
+//	・データバインド：画面入力項目とオブジェクトのフィールドのマッピング
+//	・BindingResultクラスのhasErrors()メソッドでデータバインドに失敗したかわかる
+//	・= データバインドできなかった場合の処理をhasErrors()メソッドで書く
+	public String postSignUp(@ModelAttribute SignupForm form, BindingResult bindingResult, Model model) {
+
+//		データバインドの結果の判定
+		if(bindingResult.hasErrors()) {
+
+//			失敗したら、getSignUp()メソッドへ
+//			直接signup.htmlに遷移させないのは、ラジオボタンの初期化をしないといけないから
+			return getSignUp(form, model);
+		}
+
+//		↓ データバインドが成功している場合
+//		formの中身をコンソールに出して確認
+		System.out.println(form);
 
 //		"/login"(LoginController)のgetメソッドに飛ぶ
 		return "redirect:/login";
