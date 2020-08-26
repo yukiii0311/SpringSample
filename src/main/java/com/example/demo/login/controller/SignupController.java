@@ -6,10 +6,12 @@ import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.demo.login.domain.model.GroupOrder;
 import com.example.demo.login.domain.model.SignupForm;
 
 @Controller
@@ -68,7 +70,8 @@ public class SignupController {
 //	・データバインド：画面入力項目とオブジェクトのフィールドのマッピング
 //	・BindingResultクラスのhasErrors()メソッドでデータバインドに失敗したかわかる
 //	・= データバインドできなかった場合の処理をhasErrors()メソッドで書く
-	public String postSignUp(@ModelAttribute SignupForm form, BindingResult bindingResult, Model model) {
+//	@Validated：バリデーション時に付ける。パラメーターに実行順序のインターフェースを指定すると、バリデーションがグループ実行される。
+	public String postSignUp(@ModelAttribute @Validated(GroupOrder.class) SignupForm form, BindingResult bindingResult, Model model) {
 
 //		データバインドの結果の判定
 		if(bindingResult.hasErrors()) {
@@ -86,8 +89,6 @@ public class SignupController {
 		return "redirect:/login";
 
 	}
-
-
 
 
 }
