@@ -1,13 +1,16 @@
 package com.example.demo.login.aspect;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 
-// このクラスで行うこと
-// ・各コントローラークラス（LoginController、SignupController）のメソッドが呼び出されるたびに、開始ログと終了ログを出力する。
+//	このクラスの役割
+//	・各コントローラークラス（LoginController、SignupController）のメソッドが呼び出されるたびに、開始ログと終了ログを出力する。
+//	・UserDaoクラス（CRUD操作）のメソッドが呼び出された時に、どのクラスのどのメソッドが呼ばれたのかをログ出力
 
 // ↓2つセットで付ける
 // @Aspect：AOPのクラスに付ける
@@ -49,6 +52,41 @@ public class LogAspect {
 //		getSignature()メソッド：ログ出力
 		System.out.println("メソッド終了:" + jp.getSignature());
 	}
+
+//	UserDaoクラスのログ出力
+//	@Around：メソッドの実行前後にAOPの処理を実行
+	@Around("execution(* *..*.*UserDao*.*(..))")
+//	Aroundの場合は、ProceedingJoinPointを利用して、対象のメソッドの前後に処理を差し込む
+	public Object daoLog(ProceedingJoinPoint jp)throws Throwable{
+
+//		開始のログ出力
+		System.out.println("メソッド開始:" + jp.getSignature());
+
+//		Aroundの場合、アノテーションをつけたメソッド内で、AOP対象クラス(UserDao実装クラス）のメソッドを直接実行
+//		→ メソッド実行の前後で任意の処理をすることができる。
+//		※ メソッドを直接実行しているため、returnには実行結果の戻り値を指定
+		try {
+//			メソッド実行（proceed()メソッド）
+			Object result = jp.proceed();
+
+//			終了のログ出力
+			System.out.println("メソッド終了:" + jp.getSignature());
+
+//			該当メソッドの実行結果を返す
+			return result;
+
+		} catch (Exception e) {
+//			エラーがあれば
+//			ログ出力
+			System.out.println("メソッド異常終了:" + jp.getSignature());
+
+//			エラー内容を出力
+			e.printStackTrace();
+			throw e;
+		}
+
+	}
+
 
 
 }

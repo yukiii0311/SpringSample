@@ -27,8 +27,8 @@ public class LoginController {
 	public String postLogin(Model model) {
 
 
-	//	loginフォルダのlogin.htmlに画面遷移
-		return "login/login";
+	//	一旦、ログインボタンを押すと、無条件でホーム画面に遷移
+		return "redirect:/home";
 
 	}
 }

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th=”http://www.thymeleaf.org”
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+
+<!-- Bootstrapの設定 -->
+<link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}"
+	rel="stylesheet"></link>
+<script th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+
+<!-- cssの読み込み -->
+<link th:href="@{/css/home.css}" rel="stylesheet"></link>
+
+
+<title>Home</title>
+</head>
+<body>
+
+	<!-- ========================= -->
+	<!-- ヘッダー（ナビゲーションバー）-->
+	<!-- ========================= -->
+	<!-- nav class：htmlのナビゲーションセクション要素。メニュー、目次などに使用 -->
+	<!-- navbar：全体を囲む -->
+	<!-- navbar-inverse：ナビゲーションバー全体を黒いスタイルで作成 (navbar-defaultで白背景） -->
+	<!-- navbar-fixed-top：ナビゲーションバーをトップに固定表示できる -->
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+
+	<!-- container-fluid：流動的コンテナ生成。ウィンドウの横幅に応じてスムーズに横幅が変動 -->
+		<div class="container-fluid">
+
+		<!-- navbar-header：ナビゲーションバーにおけるヘッダー -->
+			<div class="navbar-header">
+
+			<!-- navbar-brand：ロゴ付き -->
+				<a class="navbar-brand" href="#">SpringSample</a>
+			</div>
+
+			<form method="post" th:action="@{/logout}">
+
+			<!-- btn-link：色なし -->
+			<!-- pull-right：右寄せ -->
+			<!-- navbar-brand：ロゴ付き -->
+				<button class="btn btn-link pull-right navbar-brand" type="submit">ログアウト</button>
+			</form>
+		</div>
+	</nav>
+
+
+	<!-- ========== -->
+	<!-- サイドバー -->
+	<!-- ========== -->
+	<!-- container-fluid：流動的コンテナ生成。ウィンドウの横幅に応じてスムーズに横幅が変動 -->
+	<div class="container-fluid">
+
+	<!-- row：行。rowの中にcolが定義される。 -->
+		<div class="row">
+
+		<!-- col：列。rowを縦割りに、左から右へ並ぶ。「col-画面幅（スマホ）-グリッド数（Max12）」 -->
+		<!-- sidebarはcss用 -->
+			<div class="col-sm-2 sidebar">
+
+			<!-- nav-pills：アクティブなタブを塗りつぶす -->
+			<!--  nav-stacked：縦型カプセルメニュー（タブではなくボタン風、縦に配置） -->
+				<ul class="nav nav-pills nav-stacked">
+
+				<!-- role = "presentation"：意味は持たないけど、視覚的にこのタグ（リスト）を使いたかった -->
+					<li role="presentation"><a th:href="@{'/userList'}">ユーザー管理</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- ========== -->
+	<!-- コンテンツ -->
+	<!-- ========== -->
+	<!-- container-fluid：流動的コンテナ生成。ウィンドウの横幅に応じてスムーズに横幅が変動 -->
+	<div class="container-fluid">
+
+		<!-- row：行。rowの中にcolが定義される。 -->
+		<div class="row">
+
+		<!-- col-sm-offset-2：カラム前に指定分(2)の空白カラムを挿入 -->
+		<!-- mainはcss用 -->
+			<div class="col-sm-10 col-sm-offset-2 main">
+			<!-- th:include：この属性がついているタグ内に別のファイルの内容（=コンテンツ部分のhtml）が追加される -->
+			<!-- 【基本】th:include = "<ファイルパス>::<th:fragment属性の値>" -->
+			<!-- 【例】login/home.htmlに「th:fragment = "home_contents"」とあったら -->
+			<!--     「th:include = "login/home :: home_contents"」と書く。 -->
+			<!-- コンテンツ部分を動的に変更する必要がある → th:includeの値はModelに登録された値を参照するようにする -->
+			<!-- プリプロセッシング（通常の式よりも先に評価させる仕組み)を使う。"__${変数名}__" -->
+			<!-- 先にコンテンツ（th:include）が評価され、その後html全体が作成される。→コンテンツ部分のhtmlを表示させることができる -->
+				<div th:include="__${contents}__"></div>
+			</div>
+		</div>
+	</div>
+
+
+</body>
+</html>
