@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th=”http://www.thymeleaf.org”>
+<html xmlns:th=”http://www.thymeleaf.org” xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
 <!-- Bootstrapの設定 -->
@@ -8,24 +8,27 @@
 <script th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
 
-<title>SignUp</title>
 </head>
 <body>
+<!-- コンテンツの表示 -->
+<div th:fragment = "userDetail_contents">
 	<!-- col-sm-5：画面サイズに応じてカラムの割合を変更 -->
 	<!-- sm：スマホサイズ、md：タブレットサイズ -->
+	<!-- row：行 -->
+	<div class = "row">
 	<div class="col-sm-5">
 
 		<!-- page-header：ページヘッダーに最適なスタイル（適切なスペースと区切り線）-->
 		<!-- ルール：class属性にpage-headerを指定したdivで、h1を括る -->
 		<div class="page-header">
-			<h1>ユーザー登録画面</h1>
+			<h1>ユーザー詳細</h1>
 		</div>
 
 		<!-- ここからフォーム・th:objectの有効範囲(th:fieldでオブジェクト名を省略可) -->
 		<!-- th:action：リクエスト先の指定 -->
 		<!-- action = "/signup"でも問題ないが、Springセキュリティを使う場合、th:action属性を使う -->
 		<!-- th:object：Modelに登録されているオブジェクトを受け取る。（ = 白紙の登録用紙をセット） -->
-		<form method="post" action="/signup" th:object="${signupForm}">
+		<form method="post" action="/userDetail" th:object="${signupForm}">
 
 			<!-- table-bordered：テーブルの各セルにボーダーをつける -->
 			<!-- table-hover：テーブルの列にマウスを乗せた際に背景色を変更する -->
@@ -36,24 +39,18 @@
 				<!-- ========= -->
 				<tr>
 					<!-- active：行に色をつける。activeは薄グレー -->
-					<!-- col-sm-3：画面サイズに応じてカラムの割合を変更 -->
+					<!-- col-sm-2：画面サイズに応じてカラムの割合を変更 -->
 					<!-- sm：スマホサイズ、md：タブレットサイズ -->
-					<th class="active col-sm-3">ユーザーID</th>
-					<td>
-						<!-- form-group：入力部品のグループにつける --> <!-- th:classappend：右辺の意味は「エラー時だけ（?より左がture）、class属性にhas-errorを追加（?より右） -->
-						<!-- has-errorはBootstrapのclassで、テキストボックス枠を赤くする -->
-						<div class="form-group"
-							th:classappend="${#fields.hasErrors('userId')}?'has-error'">
+					<th class="active col-sm-2">ユーザーID</th>
+					<td class = "col-sm-3">
+
+						<!-- form-group：入力部品のグループにつける -->
+						<div class="form-group">
 
 							<!-- form-control：入力部品そのものにつける -->
 							<!-- th:field：値の取得・送信 （オブジェクト内のフィールドに対応）-->
-							<input type="text" class="form-control" th:field="*{userId}" />
-
-							<!-- 個別にエラーメッセージを表示する -->
-							<!-- th:if：条件式を設定。trueの場合、th:errors属性で書くフィールドのエラーメッセージを表示する -->
-							<!-- class = "text-danger"：赤色の文字 -->
-							<span class="text-danger" th:if="${#fields.hasErrors('userId')}"
-								th:errors="*{userId}">ここにエラー文が入る</span>
+							<!-- readonly：読み取り専用、編集できない -->
+							<input type="text" class="form-control" th:field="*{userId}" readonly = "readonly"/>
 						</div>
 					</td>
 				</tr>
@@ -79,8 +76,6 @@
 							<!-- class = "text-danger"：赤色の文字 -->
 							<span class="text-danger"
 								th:if="${#fields.hasErrors('password')}" th:errors="*{password}">ここにエラー文が入る</span>
-
-
 						</div>
 					</td>
 				</tr>
@@ -133,7 +128,6 @@
 							<!-- class = "text-danger"：赤色の文字 -->
 							<span class="text-danger"
 								th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}">ここにエラー文が入る</span>
-
 						</div>
 					</td>
 				</tr>
@@ -158,7 +152,6 @@
 							<!-- class = "text-danger"：赤色の文字 -->
 							<span class="text-danger" th:if="${#fields.hasErrors('age')}"
 								th:errors="*{age}">ここにエラー文が入る</span>
-
 						</div>
 					</td>
 				</tr>
@@ -172,8 +165,7 @@
 					<td>
 						<!-- form-group：入力部品のグループにつける --> <!-- th:classappend：右辺の意味は「エラー時だけ（?より左がture）、class属性にhas-errorを追加（?より右） -->
 						<!-- has-errorはBootstrapのclassで、テキストボックス枠を赤くする -->
-						<div class="form-group"
-							th:classappend="${#fields.hasErrors('marriage')}?'has-error'">
+						<div class="form-group">
 
 							<!-- ラジオボタンを実装するにはth:each属性 -->
 							<!-- th:each=”<属性名＞:${<ModelAttributeのキー名>}" -->
@@ -189,27 +181,26 @@
 								<!-- th:field：値の取得・送信 （オブジェクト内のフィールドに対応）-->
 								<input type="radio" name="radioMarriage" th:text="${item.key}"
 									th:value="${item.value}" th:field="*{marriage}">
-
+								</div>
 								<!-- 個別にエラーメッセージを表示する -->
 								<!-- th:if：条件式を設定。trueの場合、th:errors属性で書くフィールドのエラーメッセージを表示する -->
 								<!-- class = "text-danger"：赤色の文字 -->
 								<span class="text-danger"
 									th:if="${#fields.hasErrors('marriage')}"
 									th:errors="*{marriage}">ここにエラー文が入る</span>
-							</div>
 						</div>
 					</td>
 				</tr>
 			</table>
-			<!-- エラーメッセージの一覧表示 -->
-			<ul>
-				<li th:each="error :${#fields.detailedErrors()}"><span
-					th:text="${error.message}">Error message</span></li>
-			</ul>
-			<!-- ユーザー登録ボタン -->
 			<!-- btn：ボタン、btn-primary：青色 -->
-			<button class="btn btn-primary" type="submit">ユーザー登録</button>
+			<button class="btn btn-primary btn-lg pull-right" type="submit" name="update">更新</button>
+
+			<!-- 削除ボタン -->
+			<!-- btn：ボタン、btn-danger：赤色 -->
+			<button class="btn btn-danger btn-lg" type="submit" name="delete">削除</button>
 		</form>
+	</div>
+	</div>
 	</div>
 </body>
 </html>

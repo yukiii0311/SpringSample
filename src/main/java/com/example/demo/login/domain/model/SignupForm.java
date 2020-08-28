@@ -49,6 +49,7 @@ public class SignupForm {
 	private int age;
 
 	@AssertFalse(groups = ValidGroup2.class)  // falseのみ可能（falseかどうかをチェック）
+//	boolean型はlombok使用時のgetter接頭語はisになるので注意！
 	private boolean marriage;
 
 
