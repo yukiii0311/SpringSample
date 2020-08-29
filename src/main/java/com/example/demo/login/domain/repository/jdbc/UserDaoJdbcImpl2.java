@@ -9,11 +9,12 @@ import org.springframework.stereotype.Repository;
 
 import com.example.demo.login.domain.model.User;
 
+// UserDaoJdbcImpl2 ＋ UserRowMapper
 // UserDaoJdbcImplを継承したクラスにする
 // → select文を実行する箇所だけRowMapperに変えて、そのほかのinesrtやupdate文はUserDaoJdbcImpleを使う
 
-@Repository("UserDaoJdbcImple2")
-public class UserDaoJdbcImple2 extends UserDaoJdbcImpl {
+@Repository("UserDaoJdbcImpl2")
+public class UserDaoJdbcImpl2 extends UserDaoJdbcImpl {
 
 	@Autowired
 	private JdbcTemplate jdbc;
@@ -38,7 +39,7 @@ public class UserDaoJdbcImple2 extends UserDaoJdbcImpl {
 	@Override
 	public List<User> selectMany(){
 
-//		m_user（table）のデータを全権取得するURL
+//		m_user（table）のデータを全件取得するURL
 		String sql = "SELECT * FROM m_user";
 
 //		RowMapperの生成、リストになる時はRowMapper<User>
