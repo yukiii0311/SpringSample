@@ -18,7 +18,9 @@ import com.example.demo.login.domain.repository.UserDao;
 //	・UserDaoの実装
 //	・このクラスのメソッドを使って、SQLを実行。データベースから値を引っ張ってくる。
 
-@Repository
+// @RepositoryにBean名をセット
+// @Autowiredする時、どのクラスを使用するか指定できる
+@Repository("UserDaoJdbcImpl")
 public class UserDaoJdbcImpl implements UserDao {
 
 //	JdbcTemplateはspringが用意している (=既にBean定義済み) → @Autowiredだけで使える

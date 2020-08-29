@@ -3,6 +3,7 @@ package com.example.demo.login.domain.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.login.domain.model.User;
@@ -15,7 +16,15 @@ import com.example.demo.login.domain.repository.UserDao;
 @Service
 public class UserService {
 
+//	@Qualifierについて
+//	・@Autowiredと一緒に@Qualifierアノテーションを使用すると、どのBeanを使用するか指定することができる
+//	・UserDao継承クラスが1つなら不要。（Springが自動でBeanを探してくれる）
+//	・ただし今回は、UserDaoインターフェースを継承したクラスが2つある。→@Qualifierをつけないといけない
+
+
+
 	@Autowired
+	@Qualifier("UserDaoJdbcImple2")
 	UserDao dao;
 
 //	===============
