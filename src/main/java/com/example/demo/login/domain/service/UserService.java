@@ -70,7 +70,7 @@ public class UserService {
 //	===================
 	public boolean updateOne(User user) {
 
-//		1件更新
+//		1件更新、rowNumberには更新された件数が入る
 		int rowNumber = dao.updateOne(user);
 
 //		判定用変数
@@ -85,6 +85,27 @@ public class UserService {
 		return result;
 	}
 
+
+//	===================
+//	deleteOne()メソッド
+//	===================
+	public boolean deleteOne(String userId) {
+
+//		1件削除、rowNumberには削除された件数が入る
+		int rowNumber = dao.deleteOne(userId);
+
+//		判定用変数
+		boolean result = false;
+
+//		ちゃんと削除されたか確認
+		if(rowNumber > 0) {
+
+//			0より大きい値が返ってきたら成功
+			result = true;
+		}
+
+		return result;
+	}
 
 
 

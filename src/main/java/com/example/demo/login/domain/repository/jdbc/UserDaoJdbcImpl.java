@@ -16,7 +16,7 @@ import com.example.demo.login.domain.repository.UserDao;
 
 //	このクラスの役割
 //	・UserDaoの実装
-//	・このクラスのメソッドを使って、SQLを実行
+//	・このクラスのメソッドを使って、SQLを実行。データベースから値を引っ張ってくる。
 
 @Repository
 public class UserDaoJdbcImpl implements UserDao {
@@ -143,7 +143,11 @@ public class UserDaoJdbcImpl implements UserDao {
 //	User(table)を1件削除
 	@Override
 	public int deleteOne(String userId) throws DataAccessException {
-		return 0;
+
+//		引数のuserIdのデータを削除し、この件数を返す
+		int rowNumber = jdbc.update("DELETE FROM m_user WHERE user_id = ?",userId);
+
+		return rowNumber;
 	}
 
 //	User(table)の全データをcsvに出力する

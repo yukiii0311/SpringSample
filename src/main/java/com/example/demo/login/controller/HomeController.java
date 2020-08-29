@@ -169,7 +169,7 @@ public class HomeController {
 
 
 
-//	== ▼ ユーザー詳細画面からの変更（更新）POST用メソッド ▼ ==
+//	== ▼ ユーザー詳細画面からの変更（更新）用POSTメソッド ▼ ==
 
 //	更更新ボタンと削除ボタンのどちらを押しても /userDetail にPOSTする
 //	↑を区別するためにparams属性を使う。htmlの更新ボタンに「name = "update"」を足す。
@@ -208,4 +208,40 @@ public class HomeController {
 	return getUserList(model);
 
 	}
+
+//	== ▼ ユーザー詳細画面からの削除用POSTメソッド ▼ ==
+
+//	更更新ボタンと削除ボタンのどちらを押しても /userDetail にPOSTする
+//	↑を区別するためにparams属性を使う。htmlの更新ボタンに「name = "delete"」を足す。
+	@PostMapping(value = "/userDetail", params = "delete")
+	public String postUserDetailDelete(@ModelAttribute SignupForm form, Model model) {
+
+		System.out.println("削除ボタンの処理");
+
+//		削除実行
+//		更新できたら、resultにtrueが入る
+		boolean result = userService.deleteOne(form.getUserId());
+
+//		結果に合わせて、表示メッセージを登録（model）
+		if(result == true) {
+
+			model.addAttribute("result","削除成功");
+
+		}else {
+
+			model.addAttribute("result","削除失敗");
+			}
+
+		return getUserList(model);
+
+	}
+
+
+
+
+
+
+
+
+
 }
