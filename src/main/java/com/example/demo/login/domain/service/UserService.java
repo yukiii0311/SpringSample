@@ -10,6 +10,7 @@ import com.example.demo.login.domain.repository.UserDao;
 
 //このクラスの役割
 //・サービスクラス（リポジトリークラスなどを使った色々なサービスを提供）
+//・データベースから引っ張ってくるところまでがUserDaoJdbcImple、それを元に実際に使うメソッドとして加工するのがUserService
 
 @Service
 public class UserService {
@@ -62,6 +63,26 @@ public class UserService {
 //	===================
 	public User selectOne(String userId) {
 		return dao.selectOne(userId);
+	}
+
+//	===================
+//	updateOne()メソッド
+//	===================
+	public boolean updateOne(User user) {
+
+//		1件更新
+		int rowNumber = dao.updateOne(user);
+
+//		判定用変数
+		boolean result = false;
+
+//		ちゃんと更新できたか確認
+		if(rowNumber > 0) {
+
+//			0より大きい値が返ってきたら成功
+			result = true;
+		}
+		return result;
 	}
 
 

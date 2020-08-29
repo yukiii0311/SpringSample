@@ -169,4 +169,43 @@ public class HomeController {
 
 
 
+//	== ▼ ユーザー詳細画面からの変更（更新）POST用メソッド ▼ ==
+
+//	更更新ボタンと削除ボタンのどちらを押しても /userDetail にPOSTする
+//	↑を区別するためにparams属性を使う。htmlの更新ボタンに「name = "update"」を足す。
+	@PostMapping(value = "/userDetail", params = "update")
+
+	public String postUserDetailUpdate(@ModelAttribute SignupForm form, Model model) {
+
+		System.out.println("更新ボタンの処理");
+
+//		変更内容を詰めるためのuserオブジェクトを生成
+		User user = new User();
+
+//		formクラスオブジェクト（入力フォーム用）からUserクラスオブジェクト（データベースとのやりとり用）に変換
+		user.setUserId(form.getUserId());
+		user.setPassword(form.getPassword());
+		user.setUserName(form.getUserName());
+		user.setBirthday(form.getBirthday());
+		user.setAge(form.getAge());
+		user.setMarriage(form.isMarriage());
+
+
+//	更新実行
+//  更新できたら、resultにtrueが入る
+	boolean result = userService.updateOne(user);
+
+//	結果に合わせて、表示メッセージを登録（model）
+	if(result == true) {
+
+		model.addAttribute("result","更新成功");
+
+	}else {
+		model.addAttribute("result","更新失敗");
+	}
+
+//	上の結果を詰めたmodelを引数にgetUserList()へ
+	return getUserList(model);
+
+	}
 }
