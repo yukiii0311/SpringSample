@@ -21,6 +21,7 @@ public class UserRowMapper implements RowMapper<User>{
 //	引数のResultSetにはSelect結果が入っている → Userオブジェクトにセット
 
 	@Override
+//	ResultSetはSQLを実行して抽出した表、rowNumは行番号
 	public User mapRow(ResultSet rs, int rowNum) throws SQLException{
 
 //		戻り値のUserインスタンスを生成

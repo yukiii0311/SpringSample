@@ -78,6 +78,7 @@ public class HomeController {
 //		第二引数は"<ファイルパス>::<th:fragment属性の値>"
 		model.addAttribute("contents","login/userList :: userList_contents");
 
+
 //		ユーザー一覧の生成（右辺は全件取得、それをUser型のListに突っ込む）
 		List<User> userList = userService.selectMany();
 
@@ -219,6 +220,8 @@ public class HomeController {
 		user.setAge(form.getAge());
 		user.setMarriage(form.isMarriage());
 
+//	↓トランザクション処理勉強のためのtry
+//		try {
 
 //	更新実行
 //  更新できたら、resultにtrueが入る
@@ -232,6 +235,11 @@ public class HomeController {
 	}else {
 		model.addAttribute("result","更新失敗");
 	}
+
+//	トランザクション処理（UserDaoJdbcImplと対応）
+//		}catch(DataAccessException e) {
+//			model.addAttribute("result","更新失敗(トランザクションテスト)");
+//		}
 
 //	上の結果を詰めたmodelを引数にgetUserList()へ
 	return getUserList(model);

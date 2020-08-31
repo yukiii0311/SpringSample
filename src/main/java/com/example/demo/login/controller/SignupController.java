@@ -4,10 +4,13 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -117,6 +120,46 @@ public class SignupController {
 //		"/login"(LoginController)のgetメソッドに飛ぶ
 		return "redirect:/login";
 
+	}
+
+	// =============
+	//	例外処理
+	// =============
+
+//	コントローラークラス毎の例外処理
+//	コントローラークラス内に、@ExceptionHandlerというアノテーションをつけたメソッドを用意
+//	アノテーションの引数に、例外クラスを指定することで例外毎の処理を実行できる
+//	以下はDataAccessExceptionに関する例外処理
+	@ExceptionHandler(DataAccessException.class)
+	public String dataAccesssExceptionHandler(DataAccessException e, Model model) {
+
+//		例外クラスのメッセージをModelに登録
+		model.addAttribute("error","内部サーバーエラー(DB)：ExceptionHandler");
+
+//		例外クラスのメッセージをModelに登録
+		model.addAttribute("message","SignupControllerでDataAccessExceptionが発生しました。");
+
+//		Httpのエラーコード(500)をModelに登録
+		model.addAttribute("status", HttpStatus.INTERNAL_SERVER_ERROR);
+
+		return "error";
+	}
+
+
+//	以下はExceptionに関する例外処理
+	@ExceptionHandler(Exception.class)
+	public String exceptionHandler(Exception e, Model model) {
+
+//		例外クラスのメッセージをModelに登録
+		model.addAttribute("error","内部サーバーエラー：ExceptionHandler");
+
+//		例外クラスのメッセージをModelに登録
+		model.addAttribute("message","SignupControllerでExceptionが発生しました");
+
+//		Httpのエラーコード(500)をModelに登録
+		model.addAttribute("status", HttpStatus.INTERNAL_SERVER_ERROR);
+
+		return "error";
 	}
 
 

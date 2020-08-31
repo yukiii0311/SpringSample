@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.login.domain.model.User;
 import com.example.demo.login.domain.repository.UserDao;
@@ -19,6 +20,11 @@ import com.example.demo.login.domain.repository.UserDao;
 //・サービスクラス（リポジトリークラスなどを使った色々なサービスを提供）
 //・データベースから引っ張ってくるところまでがUserDaoJdbcImple、それを元に実際に使うメソッドとして加工するのがUserService
 
+//@Transactional
+//・ビジネスロジックを担当するサービスクラスにつける
+//・引数をつけることでトランザクションを設定することができる
+
+@Transactional
 @Service
 public class UserService {
 
@@ -27,7 +33,8 @@ public class UserService {
 //	・UserDao継承クラスが1つなら不要。（＝UserDaoJdbcImplのみ）※Springが自動でBeanを探してくれる
 //	・ただし今回は、UserDaoインターフェースを継承したクラスが2つある。→@Qualifierをつけないといけない
 	@Autowired
-	@Qualifier("UserDaoNamedJdbcImpl")
+	@Qualifier("UserDaoJdbcImpl")
+//	↓型を指定しているだけ。この中にUserDaoを実装しているクラスなら入ってくれる。
 	UserDao dao;
 
 //	===============
@@ -137,7 +144,7 @@ public class UserService {
 //			ファイルシステム（デフォルト）の取得
 			FileSystem fs = FileSystems.getDefault();
 
-//			ファイル取得
+//			パス取得（引数のファイルの場所を探してきている）
 			Path p = fs.getPath(fileName);
 
 //			ファイルをbyte配列に変換

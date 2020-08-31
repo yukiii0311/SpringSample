@@ -141,6 +141,11 @@ public class UserDaoJdbcImpl implements UserDao {
 		int rowNumber = jdbc.update("UPDATE m_user SET password = ?, user_name = ?, birthday = ?, age =?, marriage = ? WHERE user_id = ?",
 				user.getPassword(), user.getUserName(), user.getBirthday(), user.getAge(), user.isMarriage(), user.getUserId());
 
+//		トランザクション確認のためにわざと例外をthrowする
+//		if(rowNumber > 0) {
+//			throw new DataAccessException("トランザクションテスト") {};
+//		}
+//
 		return rowNumber;
 
 	}

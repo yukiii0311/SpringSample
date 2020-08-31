@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -32,7 +33,7 @@ public class UserDaoNamedJdbcImpl implements UserDao{
 //	==============
 //	User(table)の件数を取得
 	@Override
-	public int count() {
+	public int count()throws DataAccessException{
 
 //		SQL文
 		String sql = "SELECT COUNT(*) FROM m_user";
@@ -51,7 +52,7 @@ public class UserDaoNamedJdbcImpl implements UserDao{
 //	==================
 //	User(table)にデータを1件挿入
 	@Override
-	public int insertOne(User user) {
+	public int insertOne(User user)throws DataAccessException {
 
 //		NamedJdbcTemplateではPreparedStatementに?ではなくキー名を使う。「:キー名」
 		String sql = "INSERT INTO m_user(user_id, password, user_name, birthday, age, marriage, role)"
@@ -80,7 +81,7 @@ public class UserDaoNamedJdbcImpl implements UserDao{
 //	===================
 //	User(table)のデータを1件取得 ※ユーザーの詳細用
 	@Override
-	public User selectOne(String userId) {
+	public User selectOne(String userId)throws DataAccessException {
 
 //		SQL文
 		String sql = "SELECT * FROM m_user WHERE user_id = :userId";
@@ -113,7 +114,7 @@ public class UserDaoNamedJdbcImpl implements UserDao{
 //	===================
 //	User(table)の全データを取得
 	@Override
-	public List<User> selectMany(){
+	public List<User> selectMany()throws DataAccessException{
 
 //		SQL文
 		String sql = "SELECT * FROM m_user";
@@ -153,7 +154,7 @@ public class UserDaoNamedJdbcImpl implements UserDao{
 //	===================
 //	User(table)を1件更新
 	@Override
-	public int updateOne(User user) {
+	public int updateOne(User user) throws DataAccessException{
 
 		String sql = "UPDATE m_user SET password = :password, user_name = :userName, birthday = :birthday, age = :age, marriage = :marriage WHERE user_id = :userId";
 
@@ -175,7 +176,7 @@ public class UserDaoNamedJdbcImpl implements UserDao{
 //	===================
 //	User(table)を1件削除
 	@Override
-	public int deleteOne(String userId) {
+	public int deleteOne(String userId)throws DataAccessException {
 
 		String sql = "DELETE FROM m_user WHERE user_id = :userId";
 
@@ -197,7 +198,7 @@ public class UserDaoNamedJdbcImpl implements UserDao{
 //	User(table)の全データをcsvに出力する
 //	SQL取得結果をサーバーにcsvで保存する
 	@Override
-	public void userCsvOut() {
+	public void userCsvOut() throws DataAccessException{
 
 //		m_userテーブルのデータを全件取得するSQL
 		String sql = "SELECT * FROM m_user";
