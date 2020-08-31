@@ -1,10 +1,14 @@
 package com.example.demo.login.controller;
 
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -137,16 +141,41 @@ public class HomeController {
 	}
 
 
-
-
-
-
-	@GetMapping("/userList/csv")
+//  ユーザー一覧のcsv出力用
 //	このメソッドでやりたいこと
-//	・ユーザー画面でCSV出力できるようにする（あとで）
-	public String getUserListCsv(Model model) {
+//	・ユーザー画面でCSV出力できるようにする
+	@GetMapping("/userList/csv")
+//	戻り値をResponseEntity型にすると、ファイル（byte型の配列）を呼び出し元に返却できる。
+	public ResponseEntity<byte[]> getUserListCsv(Model model) {
 
-		return getUserList(model);
+//		ユーザーを全件取得して、CSVをサーバーに保存する
+		userService.userCsvOut();
+
+//		byte型配列を宣言
+		byte[] bytes = null;
+
+		try {
+//			サーバーに保存されているsample.csvファイルをbyteで取得する
+			bytes = userService.getFile("sample.csv");
+
+		}catch (IOException e) {
+//			もしエラーが起きたら、エラー内容表示
+			e.printStackTrace();
+
+		}
+
+//		HTTPヘッダーの設定
+		HttpHeaders header = new HttpHeaders();
+
+//		ダウンロード時の文字コード設定
+		header.add("Content-Type", "text/csv; charset = UTF-8");
+
+//		ダウンロード時のファイルの名前
+		header.setContentDispositionFormData("filename","sample.csv");
+
+		return new ResponseEntity<>(bytes, header, HttpStatus.OK);
+
+
 	}
 
 
@@ -235,8 +264,6 @@ public class HomeController {
 		return getUserList(model);
 
 	}
-
-
 
 
 
