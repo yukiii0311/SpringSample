@@ -27,7 +27,7 @@ public class UserService {
 //	・UserDao継承クラスが1つなら不要。（＝UserDaoJdbcImplのみ）※Springが自動でBeanを探してくれる
 //	・ただし今回は、UserDaoインターフェースを継承したクラスが2つある。→@Qualifierをつけないといけない
 	@Autowired
-	@Qualifier("UserDaoJdbcImpl3")
+	@Qualifier("UserDaoNamedJdbcImpl")
 	UserDao dao;
 
 //	===============

@@ -129,6 +129,9 @@ public class UserDaoJdbcImpl implements UserDao {
 
 	}
 
+//	===================
+//	updateOne()メソッド
+//	===================
 //	User(table)を1件更新
 	@Override
 	public int updateOne(User user) throws DataAccessException{
@@ -142,6 +145,9 @@ public class UserDaoJdbcImpl implements UserDao {
 
 	}
 
+//	===================
+//	deleteOne()メソッド
+//	===================
 //	User(table)を1件削除
 	@Override
 	public int deleteOne(String userId) throws DataAccessException {
@@ -152,6 +158,9 @@ public class UserDaoJdbcImpl implements UserDao {
 		return rowNumber;
 	}
 
+//	===================
+//	userCsvOut()メソッド
+//	===================
 //	User(table)の全データをcsvに出力する
 //	SQL取得結果をサーバーにcsvで保存する
 	@Override
