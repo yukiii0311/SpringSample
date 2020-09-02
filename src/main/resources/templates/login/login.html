@@ -14,16 +14,25 @@
 <h1>Login</h1>
 
 <!-- ===== ここからフォーム ===== -->
-<form method = "post" action = "/login">
+<form method = "post" th:action="@{/login}">
+
+<!-- ログインエラーメッセージの表示 -->
+<!-- ログインエラーメッセージを表示する時、th:if属性を使う -->
+<!-- ↓(th:if)もし、セッションにセキュリティのエラーがあれば、(th:text)エラーメッセージを表示する -->
+<p th:if = "${session['SPRING_SECURITY_LAST_EXCEPTION']} != null"
+th:text = "${session['SPRING_SECURITY_LAST_EXCEPTION'].message}"
+class = "text-danger">
+ここにログインエラーメッセージが入る
+</p>
 
 <!-- ユーザーID -->
 <p>ユーザーID</p>
-<input type = "text"/><br/>
+<input type = "text" name = "userId"/><br/>
 <br/>
 
 <!-- パスワード -->
 <p>パスワード</p>
-<input type = "password"/><br/>
+<input type = "password" name="password"/><br/>
 <br/>
 
 <!-- ログインボタン -->

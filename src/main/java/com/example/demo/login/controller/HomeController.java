@@ -142,7 +142,7 @@ public class HomeController {
 	}
 
 
-//  ユーザー一覧のcsv出力用
+//  == ▼ ユーザー一覧のcsv出力用 ▼ ==
 //	このメソッドでやりたいこと
 //	・ユーザー画面でCSV出力できるようにする
 	@GetMapping("/userList/csv")
@@ -176,9 +176,21 @@ public class HomeController {
 
 		return new ResponseEntity<>(bytes, header, HttpStatus.OK);
 
-
 	}
 
+//	== ▼ アドミン権限専用画面のGET用メソッド ▼ ==
+	@GetMapping("/admin")
+	public String getAdmin(Model model) {
+
+//		コンテンツ部分にアドミン専用コンテンツを表示するための文字列を登録
+		model.addAttribute("contents","login/admin :: admin_contents");
+
+//		homeLayout.htmlに遷移
+//		( = アドミン専用画面)
+		return "login/homeLayout";
+
+
+	}
 
 
 

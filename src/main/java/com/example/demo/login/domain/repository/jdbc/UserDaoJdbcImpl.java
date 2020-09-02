@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.login.domain.model.User;
@@ -26,6 +27,11 @@ public class UserDaoJdbcImpl implements UserDao {
 //	JdbcTemplateはspringが用意している (=既にBean定義済み) → @Autowiredだけで使える
 	@Autowired
 	JdbcTemplate jdbc;
+
+//	ユーザー登録用のメソッド（insert、update）にパスワード暗号化処理を加えるため必要
+//	SecurityConfig.java にてBean定義されてるから@Autowired
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
 
 //	==============
@@ -49,11 +55,14 @@ public class UserDaoJdbcImpl implements UserDao {
 	@Override
 	public int insertOne(User user) throws DataAccessException {
 
+//		パスワード暗号化
+		String password = passwordEncoder.encode(user.getPassword());
+
 //		JdbcTemplateクラスを使ってinsertするには、update()メソッドを使う。（更新、削除も）
 //		m_user：table名（ユーザーマスタ）
 		int rowNumber = jdbc.update("INSERT INTO m_user(user_id, password, user_name, birthday, age, marriage, role) "
 				+ "VALUES (?,?,?,?,?,?,?)"
-				,user.getUserId(), user.getPassword(), user.getUserName(), user.getBirthday(), user.getAge(), user.isMarriage(), user.getRole());
+				,user.getUserId(), password, user.getUserName(), user.getBirthday(), user.getAge(), user.isMarriage(), user.getRole());
 
 //		戻り値は、登録した件数が返ってくる
 				return rowNumber;
@@ -136,10 +145,13 @@ public class UserDaoJdbcImpl implements UserDao {
 	@Override
 	public int updateOne(User user) throws DataAccessException{
 
+//		パスワード暗号化
+		String password = passwordEncoder.encode(user.getPassword());
+
 //		JdbcTemplateのupdateメソッドを使用
 //		引数はSQL文と、PreparedStatementの値
 		int rowNumber = jdbc.update("UPDATE m_user SET password = ?, user_name = ?, birthday = ?, age =?, marriage = ? WHERE user_id = ?",
-				user.getPassword(), user.getUserName(), user.getBirthday(), user.getAge(), user.isMarriage(), user.getUserId());
+				user.getPassword(),password, user.getUserName(), user.getBirthday(), user.getAge(), user.isMarriage(), user.getUserId());
 
 //		トランザクション確認のためにわざと例外をthrowする
 //		if(rowNumber > 0) {

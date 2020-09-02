@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th=”http://www.thymeleaf.org”
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="UTF-8">
 
@@ -66,7 +67,13 @@
 				<ul class="nav nav-pills nav-stacked">
 
 				<!-- role = "presentation"：意味は持たないけど、視覚的にこのタグ（リスト）を使いたかった -->
-					<li role="presentation"><a th:href="@{'/userList'}">ユーザー管理</a>
+					<li role="presentation">
+					<a th:href="@{'/userList'}">ユーザー管理</a>
+					</li>
+
+					<!-- sec:authorize = "hasRole('権限')" ：権限を持っているユーザーのみhtmlタグが有効になる -->
+					<li role="presentation" sec:authorize = "hasRole('ADMIN')">
+					<a th:href="@{'/admin'}">アドミン用画面</a>
 					</li>
 				</ul>
 			</div>

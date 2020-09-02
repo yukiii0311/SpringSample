@@ -28,7 +28,7 @@
 		<!-- th:action：リクエスト先の指定 -->
 		<!-- action = "/signup"でも問題ないが、Springセキュリティを使う場合、th:action属性を使う -->
 		<!-- th:object：Modelに登録されているオブジェクトを受け取る。（ = 白紙の登録用紙をセット） -->
-		<form method="post" action="/userDetail" th:object="${signupForm}">
+		<form method="post" th:action="@{/userDetail}" th:object="${signupForm}">
 
 			<!-- table-bordered：テーブルの各セルにボーダーをつける -->
 			<!-- table-hover：テーブルの列にマウスを乗せた際に背景色を変更する -->
